@@ -1,12 +1,7 @@
--- ============================================================================
 -- ADVANCED ANALYTICAL VIEWS FOR LOOKER STUDIO
 -- These views pre-compute the advanced insights so Looker can render them
--- Run these AFTER the base unified model is created
--- ============================================================================
-
 
 -- VIEW: Campaign Efficient Frontier with Quadrant Classification
--- Supports Finding #2 — gives Looker a "quadrant" column to color-code
 CREATE OR REPLACE VIEW `marketing_analytics.v_campaign_quadrant` AS
 WITH campaign_stats AS (
     SELECT
@@ -46,7 +41,6 @@ CROSS JOIN medians m;
 
 
 -- VIEW: Day-of-Week Performance
--- Supports Finding #11
 CREATE OR REPLACE VIEW `marketing_analytics.v_day_of_week` AS
 SELECT
     FORMAT_DATE('%A', date)                             AS day_name,
@@ -64,7 +58,6 @@ GROUP BY day_name, day_num;
 
 
 -- VIEW: Weekly Momentum with WoW Change
--- Supports Finding #10
 CREATE OR REPLACE VIEW `marketing_analytics.v_weekly_momentum` AS
 WITH weekly AS (
     SELECT
@@ -94,7 +87,6 @@ FROM weekly w;
 
 
 -- VIEW: Google Quality Score Impact
--- Supports Finding #4
 CREATE OR REPLACE VIEW `marketing_analytics.v_google_quality_score` AS
 SELECT
     quality_score,
@@ -112,7 +104,6 @@ ORDER BY quality_score;
 
 
 -- VIEW: TikTok Video Funnel by Campaign
--- Supports Finding #7
 CREATE OR REPLACE VIEW `marketing_analytics.v_tiktok_video_funnel` AS
 SELECT
     campaign_name,
@@ -134,7 +125,6 @@ GROUP BY campaign_name;
 
 
 -- VIEW: Spend-Conversion Allocation Gap
--- Supports Finding #1 — pre-computes the gap for KPI cards
 CREATE OR REPLACE VIEW `marketing_analytics.v_allocation_gap` AS
 WITH totals AS (
     SELECT
@@ -151,7 +141,6 @@ SELECT
     SAFE_DIVIDE(SUM(u.spend), t.grand_spend)        AS spend_share,
     SAFE_DIVIDE(SUM(u.conversions), t.grand_conv)   AS conv_share,
     SAFE_DIVIDE(SUM(u.clicks), t.grand_clicks)      AS click_share,
-    -- The gap: positive = over-delivering, negative = under-delivering
     SAFE_DIVIDE(SUM(u.conversions), t.grand_conv)
       - SAFE_DIVIDE(SUM(u.spend), t.grand_spend)   AS conv_spend_gap_pp
 FROM `marketing_analytics.unified_ad_performance` u
@@ -160,7 +149,6 @@ GROUP BY u.platform, t.grand_spend, t.grand_conv, t.grand_clicks;
 
 
 -- VIEW: Cross-Channel Halo (pre-computed daily pairs for text insight)
--- Supports Finding #3 — compute in SQL, display as scorecard/text in Looker
 CREATE OR REPLACE VIEW `marketing_analytics.v_halo_daily` AS
 WITH tiktok_daily AS (
     SELECT date, SUM(spend) AS tt_spend
@@ -181,6 +169,3 @@ SELECT
 FROM tiktok_daily t
 JOIN google_brand_daily g ON t.date = g.date
 ORDER BY t.date;
--- Note: Looker Studio cannot compute correlation natively.
--- Use this view to create a scatter chart (tt_spend on X, g_brand_conv on Y)
--- which visually shows the relationship. State the r-value in a text annotation.
