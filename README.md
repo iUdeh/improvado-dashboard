@@ -12,10 +12,8 @@ Unify raw advertising data from Facebook Ads, Google Ads, and TikTok into a sing
 
 | Dashboard | Link | Description |
 |-----------|------|-------------|
-| **Cross-Channel Performance** | [→ Open Dashboard](dashboard/index.html) | One-page interactive dashboard with KPI cards, allocation analysis, trends, campaign table, and efficiency matrix |
-| **Advanced Insight Report** | [→ Open Report](dashboard/advanced-insights.html) | 12 analytical dimensions including cross-channel halo effect, spend elasticity, quality score leverage, and budget reallocation simulation |
-
-> **Note:** After deploying to GitHub Pages, replace the links above with your `https://yourusername.github.io/repo-name/dashboard/` URLs.
+| **Cross-Channel Performance** | [→ Open Dashboard](https://iudeh.github.io/improvado-dashboard/dashboard/index.html) | One-page interactive dashboard with KPI cards, allocation analysis, trends, campaign table, and efficiency matrix |
+| **Advanced Insight Report** | [→ Open Report](https://iudeh.github.io/improvado-dashboard/dashboard/advanced-insights.html) | 12 analytical dimensions including cross-channel halo effect, spend elasticity, quality score leverage, and budget reallocation simulation |
 
 ## Repository Structure
 
@@ -33,11 +31,6 @@ Unify raw advertising data from Facebook Ads, Google Ads, and TikTok into a sing
 │   ├── 02_google_ads.csv                  # Source: Google Ads (110 rows, 14 columns)
 │   ├── 03_tiktok_ads.csv                  # Source: TikTok Ads (110 rows, 17 columns)
 │   └── unified_ad_performance.csv         # Output: Unified model (330 rows, 29 columns)
-│
-├── docs/
-│   ├── 01_setup_guide.docx               # Step-by-step BigQuery + Looker Studio deployment guide
-│   ├── 02_methodology.docx               # Thought process, design decisions, metric glossary
-│   └── 03_insight_report.docx            # Executive insight report with recommendations
 │
 └── README.md
 ```
@@ -99,26 +92,6 @@ The analysis goes beyond standard reporting to include 12 dimensions:
 | Dashboard | HTML/CSS/JS + Chart.js | Self-contained, fully interactive, zero dependencies, deployable on GitHub Pages |
 | BI Dashboard | Looker Studio | Connected to BigQuery for live data, shareable link |
 | Analysis | Python + SQL | Data profiling, correlation analysis, elasticity computation |
-
-## Deployment
-
-### GitHub Pages (HTML Dashboard)
-
-```bash
-# In your GitHub repo settings:
-# Settings → Pages → Source: Deploy from branch → Branch: main → Folder: / (root)
-# Dashboard will be live at: https://yourusername.github.io/repo-name/dashboard/
-```
-
-### BigQuery + Looker Studio
-
-See `docs/01_setup_guide.docx` for detailed step-by-step instructions. Summary:
-
-1. Create BigQuery project + `marketing_analytics` dataset
-2. Upload the 3 source CSVs as `stg_facebook_ads`, `stg_google_ads`, `stg_tiktok_ads`
-3. Run `sql/01_schema_and_unified_model.sql` (skip to STEP 3 for the unified model)
-4. Run `sql/02_advanced_views.sql` for analytical views
-5. Connect Looker Studio to BigQuery → Build dashboard from views
 
 ---
 
