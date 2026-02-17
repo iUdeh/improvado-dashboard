@@ -2,8 +2,8 @@
 -- SQL Script: Schema Definition, Data Transformation & Unified Model
 -- Author: Michael Ikechukwu Udeh
 -- Date: 2026-02-16
--- Database: Google BigQuery (Free Sandbox Tier)
--- Dataset: marketing_analytics
+-- Database: Google BigQuery
+
 
 -- STEP 1: SOURCE TABLES (STAGING LAYER)
 -- 1A. Facebook Ads — raw staging table
